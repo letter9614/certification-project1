@@ -256,7 +256,63 @@ console.log("Question edited successfully!");
    }
  }
 
- //This line removes the chosen question (at index questionIndex) from the quiz using the .splice() function."
-//The .splice(questionIndex, 1) portion utilizes the JavaScript splice() method to manipulate the questions array stored inside the current quiz object. The splice() function removes elements from an array and can also add new elements in their place. Here, we use it for deletion.
+ //We use .splice() here to remove the question. It removes the question you chose (at index questionIndex) from the quiz questions.."
+//TTo delete the chosen question, we use .splice(). This method modifies the questions array inside the quiz object. Here, .splice(questionIndex, 1) removes the question at the specified index (questionIndex) and only one question (indicated by the 1)
 //The first argument, questionIndex, indicates the position (adjusted for 0-based indexing) from where to start removing elements in the array.
 //The second argument, 1, specifies the number of elements to be removed. In this case, we only want to remove one question (the one at the chosen index)."
+
+
+// This function finds the index of a quiz in the quizList by its name 
+function findQuizIndex(quizName) {
+    // Find the index of the quiz with the matching name in quizList. Uses the findIndex method to find the index of the quiz with the matching name in the quizList array.
+    return quizList.findIndex((quiz) => quiz.name === quizName);
+  }
+  
+  //This part of the code finds a specific quiz by name. It does this like a search function:Check each quiz: It looks at each quiz (represented by quiz) in your quiz list (quizList).Match the name: It checks if the name of the current quiz (quiz.name) matches the name you provided (quizName).Return the index: If there's a match, it returns the position (index) of that quiz in the list.Not found? -1: If no quiz matches the name, it returns -1 (like a "not found" code).
+  
+  
+  
+    function deleteQuizFromFile(quizName) {
+     // **Reads the JSON file containing the quizzes** This line reads the "quiz.json" file and stores its contents in the data variable.
+      fs.readFile("quiz.json", (err, data) => {
+        // **Checks for errors while reading the file**:This line checks if there were any errors during the file read operation and displays an error message if necessary.
+        if (err) {
+          console.error(`Error reading file: ${err.message}`);
+          return;// Exit the function if an error occurs
+        }
+//This code defines a special function (called an arrow function) that the findIndex method uses to search through your quiz list (quizList):Input (quiz): The function takes a single argument, quiz, which represents each individual quiz object in the list as it's being checked.Test condition: Inside the function, it compares the name property of the current quiz (quiz.name) with the name you're searching for (quizName).Finding the match: If the names match, the function returns true, indicating a match is found.No match: If the names don't match, the function returns false.findIndex output: The findIndex method uses the return values (true/false) from this function to iterate through the quiz list and find the first matching quiz.Match found: If a match is found (true returned), findIndex returns the index of that quiz in the list.No match: If no quiz matches (false returned for all quizzes), findIndex returns -1, signifying no match was found.
+      // **Parses the JSON string into a JavaScript object**This line converts the JSON string from the file into a JavaScript object named jsonData.
+        const jsonData = JSON.parse(data);
+    
+        // **Finds the index of the quiz with the matching name**This line uses the findIndex method to find the index of the quiz with the matching quizName in the jsonData array.
+        const quizIndex = jsonData.findIndex((quiz) => quiz.name === quizName);
+    
+        // **Checks if the quiz was found**This line checks if the quiz was found and displays an error message if it wasn't.
+        if (quizIndex === -1) {
+          console.error(`Quiz "${quizName}" does not exist.`);
+          return;// Exit the function if the quiz was not found
+        }
+    
+        // **Deletes the quiz from the jsonData array at the specified index**This line removes the quiz from the jsonData array at the specified index.
+        jsonData.splice(quizIndex, 1);
+  
+        // **Creates a new array containing only the name and questions properties of each quiz object**Creates a new array: This line creates a new array named updatedQuizList containing only the name and questions properties of each quiz object in jsonData.
+      const updatedQuizList = jsonData.map((quizData) => ({
+        name: quizData.name,
+        questions: quizData.questions,
+      }));
+   
+      // **Writes the updated quiz list to the JSON file**This line writes the updated quiz list back to the "quiz.json" file.
+        fs.writeFile("quiz.json", JSON.stringify(jsonData, null, 2), (err) => {
+          if (err) {
+            console.error(`Error writing file: ${err.message}`);//This line checks for any errors during the file write operation and displays an error message if necessary.
+            return;// Exit the function if an error occurs
+          
+          }
+          
+    // **Displays a message indicating that the quiz was deleted**//This line displays a message indicating that the quiz was deleted successfully.
+          console.log(`Quiz "${quizName}" deleted from JSON file.`);
+          mainMenu(); // **Calls the mainMenu function to return to the main menu.This line calls the mainMenu function to return the user to the main menu of the application.
+        });
+      });
+    }
