@@ -48,6 +48,9 @@ function start() {
       case "5":
         saveQuizToFile();
         break;
+        case "6"://If the user entered "6", the loadQuizFromFile() function is called to load quizzes from a JSON file.
+          loadQuizFromFile();
+           break;//Exits the current case block after executing loadQuizFromFile().
       
       case "q":
         console.log("**Game over**");
