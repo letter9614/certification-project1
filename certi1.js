@@ -388,3 +388,65 @@ function findQuizIndex(quizName) {
       
     
       }
+      function saveQuizToFile() {
+        // **Asks the user for a filename to save the quiz data. If they leave it blank, it will be called 'quiz.json'."
+        const fileName = prompt("Write the file name (example: myQuiz.json): ") || "quiz.json";
+      
+        // **This code converts the quizList object (containing all your quizzes) into a JSON format suitable for saving to a file. Here's a breakdown:JSON.stringify function: It uses a built-in JavaScript function called JSON.stringify to perform the conversion.null parameter: The first parameter (null in this case) is optional and can be used for advanced customization. Here, it's left empty.Indentation (2 spaces): The second parameter (2) specifies the number of spaces to use for indentation in the generated JSON string. This improves readability of the JSON data."
+        const jsonData = JSON.stringify(quizList, null, 2);  // jsonData holds the string representation of the quiz list converted to JSON format.
+      
+        // **Writes the JSON string to a file**Uses the fs.writeFile function to write the generated JSON string to a file with the specified name (fileName).
+    
+        fs.writeFile(fileName, jsonData, (err) => {
+          if (err) { //Checks for any errors during the file writing process. If an error occurs, an error message is displayed to the console.
+    
+    
+            console.error("Saving is not successful:", err.message);
+            return;
+          }
+      
+          console.log(`The quiz is successfully saved in file "${fileName}".`);//Success message: If the file is saved successfully, a message is displayed to the console indicating the file name and location.
+          mainMenu();// Calls the mainMenu function to return to the main menu of the application.
+        });
+      }
+      
+    
+      
+    
+      function loadQuizFromFile() {
+        //**Gets the file name from the user** Prompts the user to enter the file name from which the quiz data should be loaded. The default filename is "quiz.json" if the user leaves it blank.
+        const fileName = prompt("Write the file name you want to read from (example: myQuiz.json): ") || "quiz.json";
+      
+        //**Reads the file contents**Uses the fs.readFile function to read the contents of the specified file (fileName).
+    
+    
+        fs.readFile(fileName, (err, data) => {
+          if (err) {
+            console.error(`File was not read: ${err.message}`);
+            return; //Checks for any errors during the file reading process. If an error occurs, an error message is displayed to the console.
+          }
+      
+          //This part of the code carefully checks the file you loaded. If the file is formatted correctly (like a recipe with clear instructions), it can be used to add quizzes to your list. But if there are errors in the file (like missing ingredients or steps), it will warn you about the problem and suggest you take a look at the file again."
+          try {//This line starts a try block. The code within this block will be executed first.
+            const jsonData = JSON.parse(data);//This line attempts to parse the content of the data variable (which presumably holds the file contents) into a JavaScript object using JSON.parse.jsonData holds the parsed JavaScript object representing the loaded quiz data from the file.
+            quizList.push(...jsonData);// **Adds the loaded quizzes to the quiz list**Uses the push method to add the parsed quiz objects to the existing quizList array.This line assumes jsonData is an array of quiz objects. It uses the spread operator (...) to unpack the array and add each individual quiz object to the quizList array. Essentially, it adds the loaded quizzes to the existing quiz list.
+            console.log(`The quiz was successfully loaded from file "${fileName}".`);//Success message: If the file is loaded successfully, a success message is displayed. It executes only if the JSON parsing is successful. It prints a success message to the console indicating the loaded file name.
+    
+    
+          } catch (error) {//This line starts a catch block. This block will only execute if an error occurs during the try block (during JSON parsing).
+            console.error("JSON parsing failed:", error.message); // **Added error message**//This line, within the catch block, logs an error message to the console. It includes the generic message "JSON parsing failed" followed by the specific error message provided by the error.message property.
+          console.log("Check the form of file.");//This line, within the catch block, suggests to the user that the error might be due to the file format being incorrect. It prompts them to check the file content to ensure it's valid JSON.
+          return;//This part catches any errors that might happen and stops the function from running further."
+          }
+      
+          mainMenu();//Returns to the main menu: Calls the mainMenu function to return to the main menu of the application.
+    
+                 
+        });
+      }
+      
+    
+    
+    start(); //This start() function is where the program truly begins. It gets things running smoothly."
+    
+    
