@@ -49,24 +49,24 @@ function start() {
         break;
       
       case "q":
-        console.log("**게임 종료**");
+        console.log("**Game over**");
         return;
       default:
-        console.log("잘못된 입력입니다. 다시 선택해주세요.");
+        console.log("wrong input please select again");
         mainMenu();
     }
   }
 
-// 퀴즈 생성 함수
+// quiz variable functionality
 function createQuiz() {
-  const quizName = prompt("퀴즈 이름을 입력하세요.");
+  const quizName = prompt("please type the name of quiz.");
   const newQuiz = {
     name: quizName,
     questions: [],
   };
   quizList.push(newQuiz);
   currentQuiz = newQuiz;
-  console.log(`퀴즈 "${quizName}"이 생성되었습니다.`);
+  console.log(`quiz "${quizName}"is now created.`);
   editQuestions();
 }
 
