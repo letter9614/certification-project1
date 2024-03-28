@@ -124,11 +124,11 @@ function editQuiz() {
       // Prompt the user to enter an option and convert it to lowercase for case-insensitive matching. Explains that the user's input is stored in the option variable and converted to lowercase.
          const option = prompt().toLowerCase();
   
-    // Use a switch statement to handle different user choices
-            switch (option) { //Introduces the switch statement that executes different code blocks based on the user's choice.
+    // Use a switch statement to react to different options the user selects.
+            switch (option) { //This is where the program figures out what to do based on what you picked.
            case "1": // Call the addQuestion function (implementation not shown here) to add a new question
             addQuestion(); 
-            break;//Explains the purpose of the break statement, which exits the current case block.
+            break;//This line uses break to exit the specific code section for the chosen menu option, preventing the program from accidentally running code meant for other options.
   
               case "2": // Call the editQuestion function (implementation not shown here) to edit an existing question
             editQuestion();
@@ -143,7 +143,7 @@ function editQuiz() {
             mainMenu();//Indicates that the code calls another function for the main menu.
               return; //Explains that the return statement exits the editQuestions function.
   
-             case "q":// Terminate the program gracefully if the user enters 'q'
+             case "q":// Allows the user to exit the program cleanly by entering 'q'.
             console.log("**Game Ended**");
             process.exit(0); // Terminate the process gracefully.this line terminates the program with an exit code of 0.
   
@@ -153,4 +153,30 @@ function editQuiz() {
            }
       }
     }
-    
+// This function adds a new question to the quiz. describes the overall purpose of the addQuestion function.
+function addQuestion() {
+    // Prompt the user to enter the question text. Explains that the user's input for the question text is stored in the questionText variable.
+const questionText = prompt("Write a question: ");
+const answerOptions = [];//Initializes an empty array to store answer options.
+let answerCount = parseInt(prompt("Write the numbers of answers: "));// Prompt the user to enter the number of answers (between 1 and 4). Prompts the user for the number of answers and stores it in the answerCount variable after parsing it to an integer.
+while (answerCount < 1 || answerCount > 4) {
+  answerCount = parseInt(prompt("The numbers of answers are between one and four. Please try again: "));
+}//A loop that ensures the number of answers is between 1 and 4.
+
+// Loop through each answer and prompt the user to enter the text. A loop that iterates through the number of answers and prompts the user to enter each one.
+for (let i = 0; i < answerCount; i++) {
+  answerOptions.push(prompt(`Write the answer number ${i + 1}: `));
+}
+// Prompt the user to enter the number of the correct answer. Remember, in programming, counting starts from 0, so the first answer is at position 0, the second at position 1, and so on.
+const correctAnswer = parseInt(prompt("Put the number of correct answer: ")) - 1;
+
+//This step asks the user to define the point value for the question, which will be saved in the point variable."
+const point = parseInt(prompt("Put the point of this question: "));
+
+//This code builds a new question object by assembling all the details you provided (text, answers, etc.).
+const question = {
+text: questionText,
+answerOptions,
+correctAnswer,
+point, 
+};
