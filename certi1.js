@@ -296,7 +296,7 @@ function findQuizIndex(quizName) {
         // **Deletes the quiz from the jsonData array at the specified index**This line removes the quiz from the jsonData array at the specified index.
         jsonData.splice(quizIndex, 1);
   
-        // **Creates a new array containing only the name and questions properties of each quiz object**Creates a new array: This line creates a new array named updatedQuizList containing only the name and questions properties of each quiz object in jsonData.
+        // This code snippet creates a new array named updatedQuizList. This new list will contain a simplified version of each quiz object found in the jsonData. The simplified version will only include the name and questions properties from the original quiz objects.We're making a new list (updatedQuizList). It will only include the 'name' and 'questions' parts from each quiz in the original list (jsonData)."
       const updatedQuizList = jsonData.map((quizData) => ({
         name: quizData.name,
         questions: quizData.questions,
@@ -316,3 +316,75 @@ function findQuizIndex(quizName) {
         });
       });
     }
+
+    function playQuiz() {
+        // **Gets the quiz name from the user**Prompts the user to enter the name of the quiz they want to play.
+        const quizName = prompt("Write the quiz name you want to play: ");
+      
+        // **Finds the quiz with the matching name**Finds the quiz with the matching name in the quizList array.
+      const selectedQuiz = quizList.find((quiz) => quiz.name === quizName);
+    
+        // **Displays an error message if the quiz was not found**Displays an error message if the quiz was not found.
+        if (!selectedQuiz) {
+          console.log(`Quiz "${quizName}"does not exist.`);
+          return;
+        }
+      
+       // **Initializes the score** Initializes the score variable to 0.
+        let score = 0;
+        // **Iterates through each question in the selected quiz**Iterates through each question in the selected quiz.
+      for (const question of selectedQuiz.questions) {
+    
+        // **Initializes the answer**Initializes the answer variable to an empty string.
+        let answer = "";
+    
+      // **Loops until the user enters a valid answer**Loops until the user enters a valid answer number (1-4).
+        while (!answer) {
+          //**Displays the question and answer options**Displays the question text and answer options for the current question.
+          console.log(question.text);
+    
+          for (let i = 0; i < question.answerOptions.length; i++) {
+            console.log(`${i + 1}. ${question.answerOptions[i]}`);
+          }
+    
+        // **Gets the user's answer**Prompts the user to enter the number of their answer.
+          const input = prompt("put the number of your answer: ");
+    
+        // **Validates the user's answer**Validates the user's answer and stores it in the answer variable.
+          if (/[1-4]/.test(input)) {
+            answer = question.answerOptions[parseInt(input) - 1];
+          } else {
+            console.log("The number does not exist. Please try agian.");
+          }
+        }////****This code block ensures the user enters a valid answer number (between 1 and 4) for the current question. Here's what it does:Displays the question: It shows the text of the current question.Shows answer options: It displays the available answer choices for the question (likely numbered 1 to 4).Prompts for answer: It asks the user to enter the number corresponding to their chosen answer.Validates input: It checks if the user's input is a valid number between 1 and 4.Stores valid answer: If the input is valid, it stores the chosen answer number.Error message and loop: If the input is invalid, it displays an error message explaining the user needs to enter a number between 1 and 4. The loop then repeats, asking for the answer again until a valid choice is provided.
+    
+    // **Displays the user's answer**Displays the user's answer to the console.
+        console.log(`\n**User's answer:** ${answer}`); 
+    
+        // **Checks if the answer is correct**Checks if the user's answer is correct and updates the score accordingly.
+        if (answer === question.answerOptions[question.correctAnswer]) {
+          score += question.point; 
+          console.log(`**Correct answer! (Earned points: ${question.point})**`);
+        } else {
+          console.log("**It's wrong answer.**");
+        }
+      }
+    
+    // **Updates the quiz score**Updates the score property of the selected quiz object.
+      selectedQuiz.score = score;
+    
+      // **Updates the highest score**Updates the highestScore property of the selected quiz object.
+      if (!selectedQuiz.highestScore || score > selectedQuiz.highestScore) {
+        selectedQuiz.highestScore = score;
+      }
+    
+    
+    // **Displays the quiz result and highest score**Displays the quiz result and highest score to the console.
+      console.log(`Quiz "${quizName}" Result: ${score} / ${selectedQuiz.questions.length}`);
+      console.log(`Highest score: ${selectedQuiz.highestScore}`);
+    
+    // **Returns to the main menu** Calls the mainMenu function
+      mainMenu();
+      
+    
+      }
