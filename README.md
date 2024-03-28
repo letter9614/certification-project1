@@ -1,4 +1,4 @@
-Quizzy is an interactive quiz application designed for users to effortlessly craft, modify, and engage in quizzes of their choice. With Quizzy, users can create, edit, and partake in quizzes, all while enjoying the convenience of saving and loading quizzes via a JSON file.
+Quizzy is an interactive quiz application designed for users to effortlessly craft, modify, and engage in quizzes of their choice. With Quizzy, users can create, edit, and partake in quizzes, all while enjoying the convenience of saving and loading quizzes via a JSON file..
 
 Key Features:
 
