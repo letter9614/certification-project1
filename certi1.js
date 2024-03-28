@@ -180,3 +180,83 @@ answerOptions,
 correctAnswer,
 point, 
 };
+// Find the index of the current quiz in the quizList.It is to find the current quiz index
+const currentQuizIndex = findQuizIndex(currentQuiz.name);
+
+// Add the new question to the questions array of the current quiz in quizList (explains that the code to add the question to the quiz list)
+ quizList[currentQuizIndex].questions.push(question);
+// Display a message indicating that the question was added
+ console.log("Question added successfully."); 
+ }
+
+
+
+
+// This function edits an existing question in the quiz
+function editQuestion() {
+ // Prompt the user to enter the index of the question they want to edit (starting from 1). Prompts the user for the index of the question to edit and stores it in the questionIndex variable after adjusting for the 0-based index.
+   const questionIndex = parseInt(prompt("Enter the number of question you want to edit: ")) - 1;
+ 
+   
+ // Checks if the entered index is valid and displays an error message if it's not.
+   if (questionIndex < 0 || questionIndex >= currentQuiz.questions.length) {
+     console.log("Invalid question number. Please try again.");
+     return;
+   }
+ 
+ // Get the question  at the specified index
+   const question = currentQuiz.questions[questionIndex];
+
+ 
+ // Prompts the user to edit the question text and updates the object property.
+   question.text = prompt("Edit the question text: ", question.text);
+
+ // Loop through each answer option and prompt the user to edit it
+   for (let i = 0; i < question.answerOptions.length; i++) {
+     question.answerOptions[i] = prompt(`Edit answer number ${i + 1}: `, question.answerOptions[i]);
+   }
+   
+   // Prompt the user to edit the number of the correct answer (index starts from 0). Prompts the user to edit the number of the correct answer and updates the object property after adjusting for the 0-based index.
+   question.correctAnswer = parseInt(prompt("Edit the number of the correct answer: ", question.correctAnswer)) - 1;
+ 
+// Find the index of the current quiz in the quizList
+const currentQuizIndex = findQuizIndex(currentQuiz.name);
+
+// Update the question object in the questions array of the current quiz in quizList
+quizList[currentQuizIndex].questions[questionIndex] = question;
+
+// Display a message indicating that the question was edited
+console.log("Question edited successfully!"); 
+ }
+ 
+
+// This function deletes a question from the quiz
+ function deleteQuestion() {
+   //// We need to adjust for computer logic! Tell us which question to delete by entering its number. In programming, counting starts from 0, so the first question is 0, the second is 1, and so on."
+   const questionIndex = parseInt(prompt("Enter the number of the question to delete: ")) - 1;
+   if (questionIndex < 0 || questionIndex >= currentQuiz.questions.length) {
+     console.log("Invalid question number. Please try again.");
+     return;
+   }//Checks if the entered index is valid and displays an error message if it's not.
+ 
+   // Prompt the user for confirmation before deleting the question
+   const confirmation = prompt("Are you sure you want to delete this question? (y/n): ");
+   // Delete the question if the user confirms
+   if (confirmation === "y") {
+     // Find the index of the current quiz in the quizList 
+     const currentQuizIndex = findQuizIndex(currentQuiz.name);
+ 
+     // Delete the question from the questions array of the current quiz in quizList
+     quizList[currentQuizIndex].questions.splice(questionIndex, 1);
+
+ // Display a message indicating that the question was deleted
+     console.log("Question deleted successfully!"); 
+   } else {
+     console.log("Question deletion cancelled.");
+   }
+ }
+
+ //This line removes the chosen question (at index questionIndex) from the quiz using the .splice() function."
+//The .splice(questionIndex, 1) portion utilizes the JavaScript splice() method to manipulate the questions array stored inside the current quiz object. The splice() function removes elements from an array and can also add new elements in their place. Here, we use it for deletion.
+//The first argument, questionIndex, indicates the position (adjusted for 0-based indexing) from where to start removing elements in the array.
+//The second argument, 1, specifies the number of elements to be removed. In this case, we only want to remove one question (the one at the chosen index)."
