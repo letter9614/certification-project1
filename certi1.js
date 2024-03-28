@@ -80,12 +80,12 @@ function findQuizByName(quizName) {
     return null;
   }
 
-// 퀴즈 편집 함수
+// quiz edit function
 function editQuiz() {
-  const quizName = prompt("편집할 퀴즈 이름을 입력하세요.");
+  const quizName = prompt("type the quiz you wanna edit.");
   const quiz = findQuizByName(quizName);
   if (!quiz) {
-    console.log(`퀴즈 "${quizName}"이 존재하지 않습니다.`);
+    console.log(`quiz "${quizName}"doesn't exist.`);
     return;
   }
   currentQuiz = quiz;
@@ -116,11 +116,11 @@ function editQuestions() {
         deleteQuestion();
         break;
       case "4":
-        console.log("퀴즈 편집 완료.");
+        console.log("quiz edit complete.");
         mainMenu();
         return;
       default:
-        console.log("잘못된 입력입니다. 다시 선택해주세요.");
+        console.log("wrong input. please type again.");
     }
   }
 }
@@ -397,6 +397,43 @@ function saveQuizToFile() {
     });
   }
 
+  
+
+function loadQuizFromFile() {
+    //**Gets the file name from the user** Prompts the user to enter the file name from which the quiz data should be loaded. The default filename is "quiz.json" if the user leaves it blank.
+    const fileName = prompt("Write the file name you want to read from (example: myQuiz.json): ") || "quiz.json";
+  
+    //**Reads the file contents**Uses the fs.readFile function to read the contents of the specified file (fileName).
+  
+  
+    fs.readFile(fileName, (err, data) => {
+      if (err) {
+        console.error(`File was not read: ${err.message}`);
+        return; //Checks for any errors during the file reading process. If an error occurs, an error message is displayed to the console.
+      }
+  
+  //This code block uses a try-catch statement to handle potential errors during JSON parsing://Overall, this code snippet attempts to parse the loaded file as JSON. If successful, it adds the quizzes to the list and displays a success message. If an error occurs during parsing, it logs informative error messages and suggests checking the file format before continuing.
+    // **Parses the JSON string**Uses the JSON.parse function to parse the loaded JSON data into a JavaScript object.
+    try {//This line starts a try block. The code within this block will be executed first.
+      const jsonData = JSON.parse(data);//This line attempts to parse the content of the data variable (which presumably holds the file contents) into a JavaScript object using JSON.parse.jsonData holds the parsed JavaScript object representing the loaded quiz data from the file.
+      quizList.push(...jsonData);// **Adds the loaded quizzes to the quiz list**Uses the push method to add the parsed quiz objects to the existing quizList array.This line assumes jsonData is an array of quiz objects. It uses the spread operator (...) to unpack the array and add each individual quiz object to the quizList array. Essentially, it adds the loaded quizzes to the existing quiz list.
+      console.log(`The quiz was successfully loaded from file "${fileName}".`);//Success message: If the file is loaded successfully, a success message is displayed. It executes only if the JSON parsing is successful. It prints a success message to the console indicating the loaded file name.
+  
+  
+    } catch (error) {//This line starts a catch block. This block will only execute if an error occurs during the try block (during JSON parsing).
+      console.error("JSON parsing failed:", error.message); // **Added error message**//This line, within the catch block, logs an error message to the console. It includes the generic message "JSON parsing failed" followed by the specific error message provided by the error.message property.
+    console.log("Check the form of file.");//This line, within the catch block, suggests to the user that the error might be due to the file format being incorrect. It prompts them to check the file content to ensure it's valid JSON.
+    return;//This line, within the catch block, stops the function execution after encountering the error and the messages are logged. The return statement exits the function.
+    }
+  
+    mainMenu();//Returns to the main menu: Calls the mainMenu function to return to the main menu of the application.
+  
+           
+  });
+  
+  
+  }
+  
   
 
 start();
