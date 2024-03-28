@@ -25,7 +25,8 @@ function start() {
     3. Delete Quiz
     4. Play Quiz
     5. Save quiz to json file
-    6. Finish Game (when the input is "q")
+    6. Load quiz from json file
+    7. Finish Game (when the input is "q")
     `);
 
     const option = prompt();
