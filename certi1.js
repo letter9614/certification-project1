@@ -31,8 +31,8 @@ function start() {
     `); // Uses template literals (backticks) to create a multi-line string containing the menu options.
     
         //It uses a special string format (template literals) to create a multi-line menu that displays the available options.The menu offers choices for:Creating a new quiz Editing an existing quiz Deleting a quiz Playing a quiz Saving quizzes to a JSON file Loading quizzes from a JSON file Quitting the game by entering "q" const option = prompt().toLowerCase();//Prompts the user to enter an option from the menu.//.toLowerCase(): Converts the user's input to lowercase for case-insensitive matching in the switch statement.
-        
-        const option = prompt().toLowerCase();//Prompts the user to enter an option from the menu.//.toLowerCase(): Converts the user's input to lowercase for case-insensitive matching in the switch statement.
+
+        const option = prompt().toLowerCase();   //Prompts the user to enter an option from the menu.toLowerCase(): Converts the user's input to lowercase for case-insensitive matching in the switch statement.
   //Implements a switch statement to evaluate the user's input (option) and execute the relevant code section based on the selected option value.
     switch (option) {
       case "1": //If the user entered "1", the createQuiz() function is called to initiate the quiz creation process.
